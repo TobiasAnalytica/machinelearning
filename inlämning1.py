@@ -36,3 +36,29 @@ for url in RSS_URLS:
 
 # Kontrollera att artiklar har hämtats
 print(f"Hämtade {len(posts)} artiklar från RSS-flöden.")
+
+only_titles_and_summaries = []
+    
+# TODO: Fill in the logic to extract "title" and "summary"
+#       from each dictionary in 'posts', handling missing keys.
+#
+# Pseudocode:
+for x in posts:
+    tempdict = {}
+    try:
+        tempdict["title"] = x["title"]
+    except KeyError:
+        tempdict["title"] = ""
+    
+    try:
+        tempdict["summary"] = x["summary"]
+    except KeyError:
+        tempdict["summary"] = ""
+    
+    only_titles_and_summaries.append(tempdict)
+    
+print(only_titles_and_summaries)
+# return only_titles_and_summaries
+
+
+
