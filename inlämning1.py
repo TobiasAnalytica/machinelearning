@@ -57,8 +57,34 @@ for x in posts:
     
     only_titles_and_summaries.append(tempdict)
     
-print(only_titles_and_summaries)
+# print(only_titles_and_summaries)
 # return only_titles_and_summaries
 
 
+    title_and_summary_list = []
+    
+    # TODO: Fill in the logic to combine title and summary,
+    #       then append them as nested lists.
+    #
+    # Pseudocode:
+    for item in only_titles_and_summaries:
+        combined = item["title"] + " " + item["summary"]
+        title_and_summary_list.append([combined])
+    
+    print(title_and_summary_list)
 
+
+    def flatten_list(nested_list):
+        flattened_list = []
+        
+        # TODO: Fill in the logic to flatten the nested list.
+        #
+        # Pseudocode:
+        for item in nested_list:
+            for value in item:
+                flattened_list.append(value)
+        
+        return flattened_list
+    
+    flattened_list = flatten_list(title_and_summary_list)
+    print(flattened_list)
