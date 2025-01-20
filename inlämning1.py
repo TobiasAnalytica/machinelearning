@@ -1,12 +1,10 @@
 # Detta script hämtar RSS-flöden från nyhetssajter
-
 # Det är strukturerat för att enkelt kunna importeras i ett annat script
 
 
 # Importera paket
 import feedparser
 
-############################# RSS-FEED Parser ##############################
 
 # Lista med RSS-URL:er
 RSS_URLS = ['http://www.dn.se/nyheter/m/rss/',
@@ -39,10 +37,9 @@ print(f"Hämtade {len(posts)} artiklar från RSS-flöden.")
 
 only_titles_and_summaries = []
     
-# TODO: Fill in the logic to extract "title" and "summary"
-#       from each dictionary in 'posts', handling missing keys.
-#
-# Pseudocode:
+# Fyll i logiken för att extrahera "title" och "summary"
+# från varje ordbok i 'posts', och hantera saknade nycklar.
+
 for x in posts:
     tempdict = {}
     try:
@@ -63,10 +60,9 @@ for x in posts:
 
     title_and_summary_list = []
     
-    # TODO: Fill in the logic to combine title and summary,
-    #       then append them as nested lists.
-    #
-    # Pseudocode:
+# Fyll i logiken för att kombinera title och summary,
+# och lägg sedan till dem som nästlade listor.
+
     for item in only_titles_and_summaries:
         combined = item["title"] + " " + item["summary"]
         title_and_summary_list.append([combined])
@@ -77,9 +73,8 @@ for x in posts:
     def flatten_list(nested_list):
         flattened_list = []
         
-        # TODO: Fill in the logic to flatten the nested list.
-        #
-        # Pseudocode:
+# Fyll i logiken för att platta ut den nästlade listan.
+
         for item in nested_list:
             for value in item:
                 flattened_list.append(value)
