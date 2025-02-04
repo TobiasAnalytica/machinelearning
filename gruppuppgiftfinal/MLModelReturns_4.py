@@ -1,3 +1,82 @@
+import jsonschema
+import numpy as np
+from FullRSSList_1_2 import MyTheFinalList
+from MLModelMLC_3 import categories, vectorizer, best_clf_pipeline
+from prettytable import PrettyTable
+
+# 1. Ta den slutliga texten från 'MyTheFinalList' (title + summary)
+text_data = [entry[0] + " " + entry[1] for entry in MyTheFinalList]
+
+# 2. Ta bort tomma strängar
+filtered_text_data = [text for text in text_data if text.strip() != ""]
+
+# 3. Transformera texten med samma vectorizer som användes under träningen
+text_transformed = vectorizer.transform(filtered_text_data)
+
+# 4. Förutsäg kategorier med modellen
+predictions_proba = best_clf_pipeline.predict_proba(text_transformed)
+
+# 5. Använd tröskelvärde för att bestämma kategorier
+threshold = 0.3
+predicted_labels = (predictions_proba >= threshold).astype(int)
+
+# 6. Kombinera resultaten med MyTheFinalList
+final_results = []
+for idx, entry in enumerate(MyTheFinalList):
+  categories_predicted = [categories[i] for i in range(len(categories)) if predicted_labels[idx][i] == 1]
+  final_results.append({
+    "title": entry[0],
+    "summary": entry[1],
+    "link": entry[2],
+    "published": entry[3],
+    "topic": ", ".join(categories_predicted)
+  })
+
+# 7. Validera strukturen
+schema = {
+  "type": "object",
+  "properties": {
+    "title": {"type": "string"},
+    "summary": {"type": "string"},
+    "link": {"type": "string"},
+    "published": {"type": "string"},
+    "topic": {"type": "string"}
+  },
+  "required": ["title", "summary", "link", "published", "topic"]
+}
+
+valid_results = []
+for item in final_results:
+  try:
+    jsonschema.validate(instance=item, schema=schema)
+    valid_results.append(item)
+  except jsonschema.ValidationError:
+    pass
+
+validDict = valid_results
+
+# 8. Skriv ut i tabellform
+table = PrettyTable()
+table.field_names = ["Title", "Summary", "Link", "Published", "Topic"]
+
+for item in validDict:
+  table.add_row([item["title"], item["summary"], item["link"], item["published"], item["topic"]])
+
+print(table)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 """
 MLModelReturns_4.py
 
@@ -12,7 +91,7 @@ This script will:
 Students:
  - Complete the pseudo code to transform text, get predictions,
    and merge them with the 'MyTheFinalList'.
-"""
+
 
 # 1) Imports
 # from FullRSSList_1_2 import MyTheFinalList
@@ -77,3 +156,4 @@ def main():
 # Ensure the script runs if executed directly
 if __name__ == "__main__":
     main()
+"""
